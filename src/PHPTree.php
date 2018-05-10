@@ -21,7 +21,7 @@ class PHPTree
             if ($v[$parent] == $pid) {
                 $v['lv'] = $lv;
                 $tmp[] = $v;
-                $tmp = array_merge($tmp, self::getSonTree($data, $parent, $son, $v[$son], $lv + 1));
+                $tmp = array_merge($tmp, self::getSubTree($data, $parent, $son, $v[$son], $lv + 1));
             }
         }
         return $tmp;
