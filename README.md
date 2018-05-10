@@ -5,7 +5,7 @@
 composer require hulang/php-tree
 ~~~
 
-### 使用composer update进行安装
+### 使用composer进行更新
 ~~~
 composer update hulang/php-tree
 ~~~
