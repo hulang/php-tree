@@ -31,14 +31,15 @@ class PHPTree
      * @param $parent  string 父级元素的名称 如 pid
      * @param $son     string 子级元素的名称 如 id
      * @param $pid     int    父级元素的id 实际上传递元素的主键
+	 * @param $child   string 子标签包含名称默认：child
      * @return array 
      */
-    public static function getSubTreeList($data, $parent = 'pid', $son = 'id', $pid = 0)
+    public static function getSubTreeList($data, $parent = 'pid', $son = 'id', $pid = 0, $child = 'child')
     {
         $tmp = [];
         foreach ($data as $k => $v) {
             if ($v[$parent] == $pid) {
-                $v['child'] = self::getSubTreeList($data, $parent, $son, $v[$son]);
+                $v[$child] = self::getSubTreeList($data, $parent, $son, $v[$son], $child);
                 $tmp[] = $v;
             }
         }
