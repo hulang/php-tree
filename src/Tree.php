@@ -87,13 +87,14 @@ class Tree
         return $arr;
     }
     /** 合并成父子树
-     * @param $data    array  数据
-     * @param $parent  string 父级元素的名称 如 pid
-     * @param $son     string 子级元素的名称 如 id
-     * @param $name    string 二级数组的名称
+     * @param $data          array  数据
+     * @param $parent        string 父级元素的名称 如 pid
+     * @param $son           string 子级元素的名称 如 id
+     * @param $sort_type     int    二级数组排序方式
+     * @param $name          string 二级数组的名称
      * @return array
      */
-    public static function getTree($data, $parent = 'pid', $son = 'id', $name = 'child')
+    public static function getTree($data, $parent = 'pid', $son = 'id', $sort_type = 0, $name = 'child')
     {
         $tmp = [];
         if (!empty($data)) {
@@ -107,6 +108,11 @@ class Tree
                 }
             }
             $arr = array_column($zi, $son);
+            if ($sort_type == 1) {
+                array_multisort($arr, SORT_ASC, $zi);
+            } else {
+                array_multisort($arr, SORT_DESC, $zi);
+            }
             foreach ($zi as $k => $v) {
                 $key = array_search($v[$parent], $arr);
                 if ($key !== false) {
