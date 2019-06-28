@@ -12,5 +12,5 @@ composer update hulang/php-tree
 
 ### 引入类文件
 ~~~
-use hulang/PHPTree;
+use hulang/Tree;
 ~~~
