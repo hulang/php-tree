@@ -1,7 +1,7 @@
 {
     "name": "hulang/php-tree",
     "description": "PHP generate Tree",
-    "version": "1.0.4",
+    "version": "1.0.5",
     "authors": [{
         "name": "hulang",
         "email": "hulangfy@163.com"
