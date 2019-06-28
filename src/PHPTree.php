@@ -1,10 +1,12 @@
 <?php
+
 namespace hulang;
+
 /**
  * 无限分级类
  *
  */
-class PHPTree
+class Tree
 {
     /** 子孙树
      * @param $data array  数据
@@ -12,7 +14,7 @@ class PHPTree
      * @param $son     string 子级元素的名称 如 id
      * @param $pid     int    父级元素的id 实际上传递元素的主键
      * @param $lv      int    级别
-     * @return array 
+     * @return array
      */
     public static function getSubTree($data, $parent = 'pid', $son = 'id', $pid = 0, $lv = 0)
     {
@@ -31,8 +33,8 @@ class PHPTree
      * @param $parent  string 父级元素的名称 如 pid
      * @param $son     string 子级元素的名称 如 id
      * @param $pid     int    父级元素的id 实际上传递元素的主键
-	 * @param $child   string 子标签包含名称默认：child
-     * @return array 
+     * @param $child   string 子标签包含名称默认：child
+     * @return array
      */
     public static function getSubTreeList($data, $parent = 'pid', $son = 'id', $pid = 0, $child = 'child')
     {
@@ -45,8 +47,16 @@ class PHPTree
         }
         return $tmp;
     }
-    //组合一维数组
-    public static function unlimitForLevel($data, $html = '├─', $pid = 0, $level = 0, $parent = 'pid', $son = 'id')
+    /** 组合一维数组
+     * @param $data    array  数据
+     * @param $html    string 层级标签
+     * @param $pid     int    顶级分类的值
+     * @param $level   int    等级
+     * @param $parent  string 父级元素的名称 如 pid
+     * @param $son     string 子级元素的名称 如 id
+     * @return array
+     */
+    public static function getOneMergeTree($data, $html = '├─', $pid = 0, $level = 0, $parent = 'pid', $son = 'id')
     {
         $arr = [];
         foreach ($data as $k => $v) {
@@ -54,24 +64,35 @@ class PHPTree
                 $v['level'] = $level + 1;
                 $v['html'] = str_repeat($html, $level);
                 $arr[] = $v;
-                $arr = array_merge($arr, self::unlimitForLevel($data, $html, $v[$son], $level + 1, $parent, $son));
+                $arr = array_merge($arr, self::getOneMergeTree($data, $html, $v[$son], $level + 1, $parent, $son));
             }
         }
         return $arr;
     }
-    //组合多维数组
-    public static function unlimitForLayer($data, $pid = 0, $name = 'child')
+    /** 组合多维数组
+     * @param $data    array  数据
+     * @param $pid     int    顶级分类的值
+     * @param $name    string 二级数组的名称
+     * @return array
+     */
+    public static function getMultidMergeTree($data, $pid = 0, $name = 'child')
     {
         $arr = [];
         foreach ($data as $k => $v) {
             if ($v['pid'] == $pid) {
-                $v[$name] = self::unlimitForLayer($data, $v['id'], $name);
+                $v[$name] = self::getMultidMergeTree($data, $v['id'], $name);
                 $arr[] = $v;
             }
         }
         return $arr;
     }
-    // 合并成父子树
+    /** 合并成父子树
+     * @param $data    array  数据
+     * @param $parent  string 父级元素的名称 如 pid
+     * @param $son     string 子级元素的名称 如 id
+     * @param $name    string 二级数组的名称
+     * @return array
+     */
     public static function getTree($data, $parent = 'pid', $son = 'id', $name = 'child')
     {
         $tmp = [];
@@ -103,7 +124,13 @@ class PHPTree
         }
         return $tmp;
     }
-    //传递子分类的id返回所有的父级分类
+    /** 传递子分类的id返回所有的父级分类
+     * @param $data    array  数据
+     * @param $id      int    子级元素id值
+     * @param $parent  string 父级元素的名称 如 pid
+     * @param $son     string 子级元素的名称 如 id
+     * @return array
+     */
     public static function getParents($data, $id, $parent = 'pid', $son = 'id')
     {
         $arr = [];
@@ -115,7 +142,13 @@ class PHPTree
         }
         return $arr;
     }
-    //传递子分类的id返回所有的父级分类
+    /** 传递子分类的id返回所有的父级分类
+     * @param $data    array  数据
+     * @param $id      int    子级元素id值
+     * @param $parent  string 父级元素的名称 如 pid
+     * @param $son     string 子级元素的名称 如 id
+     * @return array
+     */
     public static function getParentsIds($data, $id, $parent = 'pid', $son = 'id')
     {
         $arr = [];
@@ -127,7 +160,13 @@ class PHPTree
         }
         return $arr;
     }
-    //传递父级id返回所有子级id
+    /** 传递父级id返回所有子级id
+     * @param $data    array  数据
+     * @param $pid     int    父级元素id值
+     * @param $parent  string 父级元素的名称 如 pid
+     * @param $son     string 子级元素的名称 如 id
+     * @return array
+     */
     public static function getChildsId($data, $pid, $parent = 'pid', $son = 'id')
     {
         $arr = [];
@@ -139,7 +178,13 @@ class PHPTree
         }
         return $arr;
     }
-    //传递父级id返回所有子级分类
+    /** 传递父级id返回所有子级分类
+     * @param $data    array  数据
+     * @param $pid     int    父级元素id值
+     * @param $parent  string 父级元素的名称 如 pid
+     * @param $son     string 子级元素的名称 如 id
+     * @return array
+     */
     public static function getChilds($data, $pid, $parent = 'pid', $son = 'id')
     {
         $arr = [];
